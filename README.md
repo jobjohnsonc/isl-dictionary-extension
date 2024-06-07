@@ -1,71 +1,51 @@
-# login-react README
+#  ISL Dictionary Extension  
 
-This is the README for your extension "login-react". After writing up a brief description, we recommend including the following sections.
+This extension is a library of sign videos in Indian Sign Language. This empowers developers working with ISL tokens by streamlining the process of fetching, storing, and visualizing these tokens directly within the code editor. It leverages the V2 API for real-time interaction with ISL tokens and presents them in a clear, tabular format using a React component.  
+
+## Requirements
+**Software**
+- VS Code
+- Operating System: Windows 10 or 11 (64-bit) 
+- macOS versions  
+- Linux distributions based on glibc 2.28 or later (e.g., Debian 10, RHEL 8, Ubuntu 20.04) 
+
+**Hardware** 
+- 1.6 GHz or faster processor 
+- 1 GB of RAM 
+
+**Extension's Dependencies**
+- React 
+- Vite 
+- Yeoman 
+- VS Code Extension API 
+- V2 API 
+
+## How to get ISL Dictionary Extension from Git
+
+**Steps**
+- Go to https://github.com/AnuMonachan/isl-dictionary-extension
+- Open it in your VS code
+- Open your terminal and run "NPM install"
+- Click the hand icon in the sidebar panel to open the login page
+- Login to the ISL Dictionary Extension
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Authentication Management-  The user needs to log in to access the ISL Dictionary 
+<img src="islapp/src/assets/login.PNG" width="1000px" alt="Login">
 
-For example if there is an image subfolder under your extension project workspace:
+- Add new ISL tokens: The user can add new tokens with required data
 
-\!\[feature X\]\(images/feature-x.png\)
+- Fetching ISL tokens: Interact with the V2 API to retrieve real-time data 	about ISL tokens
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- Displaying ISL tokens: Present fetched token information in a clear and sortable table within the code editor
 
-## Requirements
+- Editing ISL tokens: The user can able to edit and modify each token
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- Search tokens: The user can search for a particular token using the search function.
 
-## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
 
-For example:
 
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+### For Queries
+BCSSupport
