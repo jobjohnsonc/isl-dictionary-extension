@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .switch-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .switch-label {
+            margin-right: 10px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 25px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 19px;
+            width: 19px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        .slider.round {
+            border-radius: 25px;
+        }
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <h2>ISL Dictionary Extension</h2>
+    <p>Please select one from the given option.</p>
+    <div class="switch-container">
+        <label class="switch-label" for="online">Online</label>
+        <label class="switch">
+            <input type="radio" name="mode" id="online" checked>
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <div class="switch-container">
+        <label class="switch-label" for="offline">Offline</label>
+        <label class="switch">
+            <input type="radio" name="mode" id="offline">
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <script>
+          const vscode = acquireVsCodeApi();
+        const onlineSwitch = document.getElementById('online');
+        const offlineSwitch = document.getElementById('offline');
+
+        onlineSwitch.addEventListener('change', () => {
+            if (onlineSwitch.checked) {
+                vscode.postMessage({ command: 'showLoginPage' ,mode:'online'});
+            }
+        });
+
+        offlineSwitch.addEventListener('change', () => {
+            if (offlineSwitch.checked) {
+                vscode.postMessage({ command: 'showComingSoonPage' ,mode:'offline'});
+            }
+        });
+    </script>
+
+    
+    </body>
+</html>

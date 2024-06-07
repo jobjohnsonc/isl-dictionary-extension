@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      #loginForm {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 300px;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center; /* Center align text */
+      }
+      #loginForm h1 {
+        margin-bottom: 10px;
+        font-size: 24px;
+        color: #333;
+      }
+      #loginForm h2 {
+        margin-bottom: 20px;
+        font-size: 20px;
+        color: #666;
+      }
+      #loginForm label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: black; /* Set text color to black */
+        text-align: left; /* Align labels to the left */
+      }
+      #loginForm input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        color: black; /* Set text color to black */
+      }
+      #loginForm button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      #loginForm button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="loginForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required />
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+      <button type="button" onclick="login()">Login</button>
+    </form>
+    <script>
+      const vscode = acquireVsCodeApi();
+      function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        vscode.postMessage({
+          command: "login",
+          username: username,
+          password: password,
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>Dictionary Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        background-color: #272727;
+        color: #070000;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+        max-width: 1000px;
+        margin-top: 20px;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin: 20px 0;
+        overflow-x: auto;
+        color: #070000;
+      }
+      th,
+      td {
+        border: 2px solid hsl(231, 98%, 39%);
+        padding: 10px;
+        text-align: left;
+        background-color: hsl(0, 43%, 99%);
+      }
+
+      th {
+        background-color: #4058b7;
+        color: white;
+      }
+
+      button {
+        padding: 10px 20px;
+        margin: 20px 0;
+        background-color: #4058b7;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #3b8dec;
+      }
+
+      h1 {
+        margin-top: 20px;
+        text-align: center;
+        color: #4058b7;
+      }
+
+      form {
+        display: flex;
+        align-items: center;
+      }
+
+      form label {
+        color: #4058b7;
+      }
+
+      form input[type="text"] {
+        padding: 10px;
+        margin-right: 10px;
+        color: #000;
+      }
+
+      .refresh-icon {
+        font-size: 24px;
+        color: #4058b7;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+
+      .refresh-icon:hover {
+        color: #3b8dec;
+      }
+
+      .addSearch {
+        display: flex;
+      }
+
+      @media (max-width: 600px) {
+        th,
+        td {
+          padding: 5px;
+        }
+
+        button {
+          padding: 5px 10px;
+        }
+      }
+
+      .btn {
+        background-color: DodgerBlue;
+        border: none;
+        color: white;
+        padding: 12px 16px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .addbtn {
+        background-color: DodgerBlue;
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .searchForm {
+        justify-self: flex-start;
+      }
+
+      .btn:hover {
+        background-color: RoyalBlue;
+      }
+
+      .token {
+        display: none;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 100px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+
+      .modal-content {
+        background-color: #333;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        color: white;
+      }
+
+      .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .form-group input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+      }
+
+      .form-group input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-left: 10px;
+      }
+
+      .form-group input[type="checkbox"]:checked {
+        accent-color: DodgerBlue;
+      }
+
+      .addDiv {
+        display: flex;
+        width: 80%;
+        max-width: 1000px;
+        align-items: center;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body onload="loadPage();">
+    <div id="variable" class="token">{{myVariable}}</div>
+    <div class="addDiv">
+      <form id="searchForm" class="searchForm">
+        <input type="text" id="search" name="search" required />
+        <button type="button" id="searchWord">Search</button>
+        <i class="fa fa-refresh refresh-icon" id="fetchDataIcon"></i>
+      </form>
+      <button class="addbtn addButton" onclick="openModal();">Add</button>
+    </div>
+    <div class="tableDiv">
+      <table>
+        <thead>
+          <tr>
+            <th>Word</th>
+            <th>Remarks</th>
+            <th>Synonyms</th>
+            <th width="300px">Video</th>
+            <th>Description</th>
+            <th>Related Signs</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="tableData"></tbody>
+      </table>
+    </div>
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="form-group">
+          <label for="word">Word</label>
+          <input type="text" id="word" value="" />
+        </div>
+        <div class="form-group">
+          <label for="remarks">Remarks</label>
+          <input type="text" id="remarks" value="" />
+        </div>
+        <div class="form-group">
+          <label for="synonyms">Synonyms</label>
+          <input type="text" id="synonyms" value="" />
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" id="description" value="" />
+        </div>
+        <div class="form-group">
+          <label for="relatedSigns">Related Signs</label>
+          <input type="text" id="relatedSigns" value="" />
+        </div>
+        <div class="form-group">
+          <label for="videoUrl">Video URL</label>
+          <input type="text" id="videoUrl" value="" />
+        </div>
+        <button id="submitButton">Submit</button>
+      </div>
+    </div>
+    <script>
+      const bToken = document.getElementById("variable").innerHTML;
+      document
+        .getElementById("searchWord")
+        .addEventListener("click", async () => {
+          const searchWord = document
+            .getElementById("search")
+            .value.toLowerCase();
+          loadPage(searchWord);
+        });
+
+      document
+        .getElementById("fetchDataIcon")
+        .addEventListener("click", async () => {
+          document.getElementById("search").value = ""; // Clear the search input field
+          loadPage();
+        });
+
+      async function loadPage(searchWord) {
+        try {
+          const url = `https://islstagingapi.vachanengine.org/v2/dictionaries/ins_IRV_1_dictionary?search_word=${
+            searchWord ? searchWord : ""
+          }&skip=0&limit=50`;
+          const response = await fetch(url);
+
+          if (!response.ok) {
+            throw new Error(`Error fetching data: ${response.status}`);
+          }
+
+          const data = await response.json();
+          const tableBody = document.getElementById("tableData");
+
+          tableBody.innerHTML = "";
+
+          data.forEach((item) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+            <td>${item.word}</td>
+            <td>${item.details.remarks}</td>
+            <td>${item.details.synonyms}</td>
+            <td align="center">
+              ${
+                item.details.videoUrl
+                  ? `<button onclick="toggleVideo(this, '${item.details.videoUrl}')">Play Video</button>
+                     <div class='video-container' style='display:none;'>
+                       <video style="width:300px" controls muted>
+                         <source src='${item.details.videoUrl}' type='video/mp4'>
+                         Your browser does not support the video tag.
+                       </video>
+                     </div>`
+                  : "Video not available"
+              }
+            </td>
+            <td>${item.details.description}</td>
+            <td>${
+              item.details.relatedSigns.length > 0
+                ? item.details.relatedSigns.join(", ")
+                : "N/A"
+            }</td>
+            <td><button class="btn editButton">Edit</button></td>
+            <td><button class="btn deleteButton">Delete</button></td>
+          `;
+            tableBody.appendChild(row);
+
+            row
+              .querySelector(".editButton")
+              .addEventListener("click", () => openModal(item, row));
+            row
+              .querySelector(".deleteButton")
+              .addEventListener("click", () => deleteItem(item, row));
+          });
+        } catch (error) {
+          console.error("Error fetching dictionary data:", error);
+        }
+      }
+
+      function toggleVideo(button, videoUrl) {
+        const videoContainer = button.nextElementSibling;
+        if (videoContainer.style.display === "none") {
+          videoContainer.style.display = "block";
+          button.textContent = "Hide Video";
+        } else {
+          videoContainer.style.display = "none";
+          button.textContent = "Play Video";
+        }
+      }
+
+      function openModal(item = {}, row = null) {
+        const modal = document.getElementById("myModal");
+        const closeBtn = document.getElementsByClassName("close")[0];
+
+        const isEditMode = Object.keys(item).length > 0;
+
+        document.getElementById("word").value = item.word || "";
+        document.getElementById("remarks").value = item.details?.remarks || "";
+        document.getElementById("synonyms").value =
+          item.details?.synonyms || "";
+        document.getElementById("description").value =
+          item.details?.description || "";
+        document.getElementById("relatedSigns").value =
+          item.details?.relatedSigns || "";
+        document.getElementById("videoUrl").value =
+          item.details?.videoUrl || "";
+
+        document.getElementById("submitButton").onclick = () => {
+          const newItem = {
+            word: document.getElementById("word").value,
+            details: {
+              remarks: document.getElementById("remarks").value,
+              synonyms: document.getElementById("synonyms").value,
+              description: document.getElementById("description").value,
+              relatedSigns: document
+                .getElementById("relatedSigns")
+                .value.split(", "),
+              videoUrl: document.getElementById("videoUrl").value,
+            },
+          };
+
+          if (isEditMode) {
+            Object.assign(item, newItem);
+            updateItem(item, row);
+          } else {
+            addItem(newItem);
+          }
+          modal.style.display = "none";
+        };
+
+        closeBtn.onclick = () => (modal.style.display = "none");
+        window.onclick = (event) => {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        };
+
+        modal.style.display = "block";
+      }
+
+      function updateItem(item, row) {
+        if (bToken) {
+          fetch(
+            `https://islstagingapi.vachanengine.org/v2/dictionaries/ins_IRV_1_dictionary`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${bToken}`,
+                app: "Autographa",
+              },
+              body: JSON.stringify([item]),
+            }
+          )
+            .then((response) => response.json())
+            .then((json) => {
+              console.log("Update successful:", json);
+              loadPage();
+            })
+            .catch((error) => console.error("Error updating item:", error));
+        }
+      }
+
+      function addItem(item) {
+        if (bToken) {
+          fetch(
+            `https://islstagingapi.vachanengine.org/v2/dictionaries/ins_IRV_1_dictionary`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${bToken}`,
+                app: "Autographa",
+              },
+              body: JSON.stringify([item]),
+            }
+          )
+            .then((response) => response.json())
+            .then((json) => {
+              console.log("Add successful:", json);
+              loadPage();
+            })
+            .catch((error) => console.error("Error adding item:", error));
+        }
+      }
+
+      function deleteItem(item, row) {
+        const tableBody = document.getElementById("tableData");
+
+        if (bToken && item.wordId) {
+          fetch(
+            `https://islstagingapi.vachanengine.org/v2/dictionaries/ins_IRV_1_dictionary?delete_id=${item.wordId}`,
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${bToken}`,
+                app: "Autographa",
+              },
+            }
+          )
+            .then((response) => response.json())
+            .then((json) => {
+              console.log("Successfully Deleted", item.wordId);
+              tableBody.removeChild(row);
+            })
+            .catch((error) => console.error("Error:", error));
+        }
+      }
+    </script>
+  </body>
+</html>
